@@ -1,0 +1,18 @@
+<header class="header-6">
+  <div class="branding">
+    <a routerLink="/calendar" class="nav-link">
+      <clr-icon shape="calendar"></clr-icon>
+      <span class="title">Events Calendar</span>
+    </a>
+  </div>
+  <div class="header-actions">
+      <clr-dropdown>
+        <button class="nav-text" clrDropdownTrigger>
+          <clr-icon shape="caret down"></clr-icon>
+        </button>
+      <clr-dropdown-menu *clrIfOpen clrPosition="bottom-right">
+        <a (click)="logout()" clrDropdownItem>Abmelden</a>
+      </clr-dropdown-menu>
+    </clr-dropdown>
+  </div>
+</header>

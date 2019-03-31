@@ -1,0 +1,30 @@
+<div class="login-wrapper">
+  <form class="login" #registerForm="ngForm" (ngSubmit)="registerUser(registerForm.value)">
+    <section class="title" *ngIf="!isRegisterd">
+      <h3 class="welcome">Willkommen bei</h3>
+      Events Calendar
+      <h5 class="hint">Bitte registrieren Sie sich.</h5>
+    </section>
+    <div class="login-group" *ngIf="!isRegisterd">
+      <clr-input-container>
+        <input type="text" name="firstname" clrInput placeholder="Vorname" [(ngModel)]="firstname"/>
+      </clr-input-container>
+      <clr-input-container>
+        <input type="text" name="lastname" clrInput placeholder="Nachname" [(ngModel)]="lastname"/>
+      </clr-input-container>
+      <clr-input-container>
+        <input type="text" name="email" clrInput placeholder="E-Mail" pattern = "^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" [(ngModel)]="username"/>
+      </clr-input-container>
+      <clr-password-container>
+        <input type="password" name="password" clrPassword placeholder="Passwort" [(ngModel)]="password"/>
+      </clr-password-container>
+      <button type="submit" class="btn btn-primary">Registrieren</button>
+      <a routerLink="/login" class="signup">Zurück zum Login</a>
+    </div>
+    <div *ngIf="isRegisterd">
+      Registrierung erfolgreich
+      <br>
+      <a routerLink="/login" class="signup">Zurück zum Login</a>
+    </div>
+  </form>
+</div>

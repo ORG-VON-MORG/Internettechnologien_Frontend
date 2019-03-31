@@ -1,0 +1,22 @@
+<div class="login-wrapper">
+  <form class="login" #loginForm="ngForm" (ngSubmit)="login(loginForm.value)">
+    <section class="title">
+      <h3 class="welcome">Willkommen bei</h3>
+      Events Calendar
+      <h5 class="hint">Bitte melden Sie sich mit Ihrer E-Mail und Ihrem Passwort an.</h5>
+    </section>
+    <div class="login-group">
+      <clr-input-container>
+        <input type="text" name="email"  clrInput placeholder="E-Mail" pattern = "^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"[(ngModel)]="username"/>
+      </clr-input-container>
+      <clr-password-container>
+        <input type="password" name="password" clrPassword placeholder="Passwort" [(ngModel)]="password"/>
+      </clr-password-container>
+      <div *ngIf="hasError"class="alert alert-danger" role="alert">
+        Das eingegebene Passwort stimmt nicht mit der E-Mail Adresse überein!<br>
+      </div>
+      <button type="submit" class="btn btn-primary">Anmelden</button>
+      <a routerLink="/register" class="signup">Registrieren</a>
+    </div>
+  </form>
+</div>

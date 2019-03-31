@@ -1,0 +1,14 @@
+<div *ngIf="date" class="date-cell-container">
+  <!-- Priority -->
+  <span class="priority">
+    <span *ngFor="let i of highestPriorityIterable">{{ "!" }}</span>
+  </span>
+  <!-- Headline with day of month -->
+  <h4>{{ date.date() }}</h4>
+  <!-- Events as badges -->
+  <div *ngFor="let event of events" class="badge"
+    [ngStyle]="{ 'background-color': event.color }">
+    {{ event.startDate.format('HH:mm') + " - " + event.endDate.format('HH:mm') }}
+    {{ event.title }}
+  </div>
+</div>

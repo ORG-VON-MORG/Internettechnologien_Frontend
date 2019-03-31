@@ -1,0 +1,22 @@
+.priority {
+    float: right;
+    color: #E12200;
+}
+
+.date-cell-container {
+    position: relative;
+    height: 100px;
+    // overflow: hidden;
+}
+
+h4 {
+    margin: 0px;
+}
+
+.badge {
+    text-align: left;
+    max-width: 100%;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}

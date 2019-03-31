@@ -1,0 +1,53 @@
+.content-area {
+    position: relative;
+
+    .btn-group {
+        position: absolute;
+        top: 24px;
+        right: 12px;
+    }
+}
+
+
+.calendar-container {
+    .clr-row:first-child {
+        background-color: #002538;
+        color: #FAFAFA;
+
+        .clr-col {
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+    }
+
+    .clr-col {
+        border-bottom: 1px solid #CCCCCC;
+        border-right: 1px solid #CCCCCC;
+        max-width: 14.285714285714286%; // = 100 / 7
+        overflow: hidden;
+    }
+
+    .clr-col:first-child {
+        border-left: 1px solid #CCCCCC;
+    }
+
+    .clr-row:not(:first-child) {
+        .clr-col:hover, app-date-cell:hover {
+            background-color: #D9E4EA !important;
+            cursor: pointer;
+        }
+    }
+
+    .weekend-day {
+        background-color: #EEEEEE;
+    }
+
+    .current-day {
+        background-color: #89CBDF !important;
+    }
+
+    .not-current-month {
+        background-color: #DDDDDD;
+    }
+}

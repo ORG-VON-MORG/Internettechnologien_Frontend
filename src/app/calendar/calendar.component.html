@@ -1,0 +1,140 @@
+<!-- Header component -->
+<app-header></app-header>
+
+<!-- Event detail modal -->
+<clr-modal *ngIf="detailEvent"
+  [(clrModalOpen)]="showEventDetailModal"
+  [clrModalSize]="'lg'"
+  [clrModalClosable]="true"
+  [clrModalStaticBackdrop]="true">
+  <h3 class="modal-title">{{ detailEvent.id ? modalObject.format('DD. MMMM YYYY') : 'Neuer Termin' }}</h3>
+  <div class="modal-body">
+    <!-- Event form for create/update -->
+    <form clrForm>
+      <!-- Startdate input -->
+      <clr-input-container>
+        <label>Startzeit</label>
+        <input clrInput type="time" name="eventStartDate" [(ngModel)]="detailEvent.startDateBuffer">
+        <clr-control-error>Pflichtfeld</clr-control-error>
+      </clr-input-container>
+      <!-- Enddate input -->
+      <clr-input-container>
+        <label>Endzeit</label>
+        <input clrInput (change)="nextDay()" type="time" name="eventEndDate" [(ngModel)]="detailEvent.endDateBuffer">
+        <clr-control-error>Pflichtfeld</clr-control-error>
+      </clr-input-container>
+      <!-- Title -->
+      <clr-input-container>
+        <label>Titel</label>
+        <input clrInput type="text" name="eventTitle" [(ngModel)]="detailEvent.title" />
+      </clr-input-container>
+      <!-- Priority input -->
+      <clr-radio-container>
+        <label>Priorität</label>
+        <clr-radio-wrapper>
+          <input type="radio" clrRadio name="eventPriority" required value="0" [(ngModel)]="detailEvent.priority" />
+          <label style="color: #E12200;">-</label>
+        </clr-radio-wrapper>
+        <clr-radio-wrapper>
+          <input type="radio" clrRadio name="eventPriority" required value="1" [(ngModel)]="detailEvent.priority" />
+          <label style="color: #E12200;">!</label>
+        </clr-radio-wrapper>
+        <clr-radio-wrapper>
+          <input type="radio" clrRadio name="eventPriority" required value="2" [(ngModel)]="detailEvent.priority" />
+          <label style="color: #E12200;">!!</label>
+        </clr-radio-wrapper>
+        <clr-radio-wrapper>
+          <input type="radio" clrRadio name="eventPriority" required value="3" [(ngModel)]="detailEvent.priority" />
+          <label style="color: #E12200;">!!!</label>
+        </clr-radio-wrapper>
+      </clr-radio-container>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline" (click)="showEventDetailModal = false">Abbrechen</button>
+    <button type="button" class="btn btn-primary" (click)="saveEvent()">Speichern</button>
+  </div>
+</clr-modal>
+
+<!-- Events modal -->
+<clr-modal *ngIf="modalObject"
+  [(clrModalOpen)]="showEventsModal"
+  [clrModalSize]="'lg'"
+  [clrModalClosable]="true"
+  [clrModalStaticBackdrop]="true">
+  <h3 class="modal-title">{{ modalObject.format('DD. MMMM YYYY') }}</h3>
+  <div class="modal-body">
+    <h3>Termine</h3>
+    <table class="table">
+      <tbody>
+        <tr [hidden]="modalObject.events.length">
+          <td>
+            <clr-icon shape="info-circle"></clr-icon>
+            Keine Termine vorhanden
+          </td>
+        </tr>
+        <tr *ngFor="let event of modalObject.events;">
+          <td style="width: 1%;">
+            <clr-icon shape="close" style="cursor: pointer; color: #E12200;" (click)="deleteEvent(event)"></clr-icon>
+          </td>
+          <td style="width: 1%;">
+            <clr-icon shape="pencil" style="cursor: pointer;" (click)="callEventDetailModal(event)"></clr-icon>
+          </td>
+          <td style="width: 5%;"><b>{{ event.startDate.format('HH:mm') }}</b></td>
+          <td style="width: 2%;"><b>-</b></td>
+          <td style="width: 5%;"><b>{{ event.endDate.format('HH:mm') }}</b></td>
+          <td class="left">{{ event.title }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-primary" (click)="callEventDetailModal()">Termin erstellen</button>
+  </div>
+</clr-modal>
+
+<!-- Main content -->
+<div class="content-container">
+  <div class="content-area">
+
+    <!-- Headline with current month and year -->
+    <h1>{{ currentDate.format("MMMM YYYY") }}</h1>
+
+    <!-- Month navigation Buttons -->
+    <div class="btn-group btn-primary btn-icon">
+      <!-- Privious -->
+      <button class="btn" (click)="showPreviousMonth()">
+        <clr-icon shape="angle" dir="left"></clr-icon>
+      </button>
+      <!-- Current -->
+      <button class="btn" (click)="showCurrentMonth()">
+        <clr-icon shape="bullseye"></clr-icon>
+      </button>
+      <!-- Next -->
+      <button class="btn" (click)="showNextMonth()">
+        <clr-icon shape="angle" dir="right"></clr-icon>
+      </button>
+    </div>
+
+    <!-- Calendar -->
+    <div class="calendar-container">
+      <div class="clr-row">
+        <!-- Table headline with weekdays -->
+        <div class="clr-col" *ngFor="let day of weekDays">
+          {{ day.format('dddd') }}
+        </div>
+      </div>
+      <!-- Dates -->
+      <div class="clr-row" *ngFor="let row of currentMonthIterable">
+        <div class="clr-col" *ngFor="let col of row; let i = index;"
+          [ngClass]="(col.format('DD.MM.YYYY') === today.format('DD.MM.YYYY') ? ' current-day ' : '') +
+            (col.get('month') !== currentDate.get('month') ? ' not-current-month ' : '') +
+            (col.weekday() > 4 ? ' weekend-day ' : '')"
+            (click)="callEventModal(col)">
+          <app-date-cell [date]="col" [events]="col.events"></app-date-cell>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
